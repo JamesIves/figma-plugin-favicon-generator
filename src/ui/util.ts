@@ -1,6 +1,6 @@
 import JSZip from 'jszip'
 import {saveAs} from 'file-saver'
-import {UserOptions} from './constants'
+import {UserOptions} from '../constants'
 
 /**
  * @description Resize an image to the target width and height.

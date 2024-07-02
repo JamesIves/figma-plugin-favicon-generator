@@ -3,7 +3,7 @@ import {
   FigmaNodeType,
   PluginInterfaceEvent,
   PluginMessageType
-} from '../ui/constants'
+} from '../constants'
 
 /**
  * This file is the entry point for the plugin code. It is responsible for

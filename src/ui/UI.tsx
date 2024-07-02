@@ -11,7 +11,7 @@ import {
   webAppManifestIcons,
   appleTouchIcons,
   UserOptions
-} from './constants'
+} from '../constants'
 import imageWorkerScript from './image.worker'
 
 /**
