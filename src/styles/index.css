@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.slide-down {
+  @apply fixed bottom-0 left-0 right-0;
+  transform: translateY(100%);
+  animation: slideDown 0.5s forwards;
+}
+
+@keyframes slideDown {
+  to {
+    transform: translateY(0);
+  }
+}
