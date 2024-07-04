@@ -1,5 +1,6 @@
 import {
-  FigmaFillType,
+  // FigmaFill,
+  // FigmaFillType,
   FigmaNodeType,
   PluginInterfaceEvent,
   PluginMessageType
@@ -15,7 +16,7 @@ import {
  * @describe Parameters passed to the Figma plugin UI.
  */
 figma.showUI(__html__, {
-  height: 450,
+  height: 500,
   width: 600
 })
 
@@ -29,7 +30,7 @@ function sendToPluginUi({data, type}: PluginInterfaceEvent): void {
 /**
  * @describe Exports the image fill of the specified node as a PNG image.
  */
-async function exportImage(node: FrameNode | RectangleNode) {
+async function exportImage(node: FrameNode | RectangleNode): Promise<void> {
   try {
     const result = await node.exportAsync({
       format: 'PNG',
@@ -44,7 +45,7 @@ async function exportImage(node: FrameNode | RectangleNode) {
       data: result
     })
   } catch (error) {
-    console.error('An error occured exporting the image from Figma... ', error)
+    console.error('An error occurred exporting the image from Figma... ', error)
   }
 }
 
@@ -54,6 +55,27 @@ async function exportImage(node: FrameNode | RectangleNode) {
 figma.ui.onmessage = (msg: {type: string}) => {
   if (msg.type === PluginMessageType.CANCEL) {
     figma.closePlugin()
+  }
+}
+
+async function exportGroup(
+  node: GroupNode | FrameNode | RectangleNode
+): Promise<void> {
+  try {
+    const result = await node.exportAsync({
+      format: 'PNG',
+      constraint: {
+        type: 'WIDTH',
+        value: 512
+      }
+    })
+
+    sendToPluginUi({
+      type: PluginMessageType.SELECTION,
+      data: result
+    })
+  } catch (error) {
+    console.error('An error occurred exporting the group from Figma... ', error)
   }
 }
 
@@ -79,28 +101,22 @@ figma.on('selectionchange', () => {
   if (selection.length === 1) {
     const node = selection[0]
 
-    // Check if the selected node is a frame or rectangle with an image fill.
     if (
-      node.type === FigmaNodeType.FRAME ||
-      node.type === FigmaNodeType.RECTANGLE
+      (node.type === FigmaNodeType.FRAME ||
+        node.type === FigmaNodeType.RECTANGLE) &&
+      node.width >= 1 &&
+      node.height >= 1
     ) {
-      const imageFill = node.fills.find(
-        (fill: {type: FigmaFillType}) => fill.type === FigmaFillType.IMAGE
-      )
-
       // Export the image fill if it exists and the node has dimensions.
-      if (imageFill && node.width && node.height) {
-        exportImage(node)
-      } else {
-        console.warn(
-          'The selected frame or rectangle does not contain an image fill.'
-        )
-
-        resetImageSelection()
-      }
+      exportImage(node)
+    } else if (
+      node.type === FigmaNodeType.GROUP &&
+      node.width >= 1 &&
+      node.height >= 1
+    ) {
+      console.log('Exporting group from Figma...', node)
+      exportGroup(node)
     } else {
-      console.log('The selected node is not a frame or rectangle.')
-
       resetImageSelection()
     }
   } else {

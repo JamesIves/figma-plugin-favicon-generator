@@ -1,7 +1,12 @@
 {
   "name": "Favicon Generator",
+  "id": "1390812275442512670",
   "api": "1.0.0",
-  "editorType": ["figma", "figjam"],
+  "editorType": ["figma"],
   "main": "dist/src/code/code.js",
-  "ui": "dist/src/ui/ui.html"
+  "ui": "dist/src/ui/ui.html",
+  "networkAccess": {
+    "allowedDomains": ["none"]
+  },
+  "documentAccess": "dynamic-page"
 }

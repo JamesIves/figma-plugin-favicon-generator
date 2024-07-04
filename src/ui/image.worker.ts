@@ -3,7 +3,6 @@
  */
 export default () => {
   self.addEventListener('message', e => {
-    console.log('self', self)
     const {selection} = e.data
 
     const blob = new Blob([new Uint8Array(selection)])

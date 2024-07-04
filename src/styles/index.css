@@ -13,3 +13,7 @@
     transform: translateY(0);
   }
 }
+
+.switch__toggle:focus-visible ~ label::before {
+  @apply outline-dashed outline-2 outline-blue-700;
+}

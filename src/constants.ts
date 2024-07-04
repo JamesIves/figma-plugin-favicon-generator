@@ -23,7 +23,11 @@ export enum FigmaNodeType {
   /**
    * A rectangle node.
    */
-  RECTANGLE = 'RECTANGLE'
+  RECTANGLE = 'RECTANGLE',
+  /**
+   * A group node.
+   */
+  GROUP = 'GROUP'
 }
 
 export enum FigmaFillType {
@@ -31,6 +35,13 @@ export enum FigmaFillType {
    * An image fill.
    */
   IMAGE = 'IMAGE'
+}
+
+/**
+ * The fill data for a node in Figma.
+ */
+export interface FigmaFill {
+  type: FigmaFillType
 }
 
 /**
@@ -61,9 +72,17 @@ export interface UserOptions {
    */
   includeWebAppManifest: boolean
   /**
+   * Whether to include the expanded sizes for the icons in the output.
+   */
+  includeExpandedSizes: boolean
+  /**
    * The name of the site to use in the web app manifest.
    */
   siteName: string
+  /**
+   * The description of the site to use in the web app manifest.
+   */
+  description: string
   /**
    * The theme color to use in the web app manifest.
    */
@@ -74,6 +93,14 @@ export interface UserOptions {
  * The icons to generate for the apple touch icon output.
  */
 export const appleTouchIcons = [
+  {width: 180, height: 180, prefix: 'apple-touch-icon'},
+  {width: 192, height: 192, prefix: 'apple-touch-icon'}
+]
+
+/**
+ * The expanded set of icons to generate for the apple touch icon output.
+ */
+export const appleTouchIconsExpanded = [
   {width: 57, height: 57, prefix: 'apple-touch-icon'},
   {width: 72, height: 72, prefix: 'apple-touch-icon'},
   {width: 76, height: 76, prefix: 'apple-touch-icon'},
@@ -86,10 +113,11 @@ export const appleTouchIcons = [
 /**
  * The icons to generate for the favicon output.
  */
-export const faviconIcons = [
+export const faviconIconsExpanded = [
   {width: 16, height: 16, prefix: 'favicon'},
   {width: 32, height: 32, prefix: 'favicon'},
   {width: 96, height: 96, prefix: 'favicon'},
+  {width: 128, height: 128, prefix: 'favicon'},
   {width: 196, height: 196, prefix: 'favicon'}
 ]
 

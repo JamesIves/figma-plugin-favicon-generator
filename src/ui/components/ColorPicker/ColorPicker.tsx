@@ -34,7 +34,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
 }) => {
   return (
     <div className="input flex">
-      <label className="label" htmlFor={id}>
+      <label className="label !text-black-8" htmlFor={id}>
         {label}
       </label>
       <input

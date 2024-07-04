@@ -13,7 +13,7 @@ async function resizeImage({
   favicon: string
   targetWidth: number
   targetHeight: number
-}) {
+}): Promise<unknown> {
   return new Promise((resolve, reject) => {
     const img = new Image()
     img.src = favicon
@@ -72,10 +72,15 @@ async function resizeImage({
 /**
  * @description Generate a web app manifest for the user to download.
  */
-async function generateWebAppManifest({siteName, themeColor}: UserOptions) {
+async function generateWebAppManifest({
+  siteName,
+  description,
+  themeColor
+}: UserOptions) {
   const manifest = {
     name: siteName || '',
     short_name: siteName || '',
+    description: description || '',
     start_url: '/',
     display: 'standalone',
     background_color: themeColor,
@@ -122,18 +127,18 @@ export async function downloadResizedImagesAsZip({
       targetHeight: size.height
     })
 
-    zip.file(`${size.prefix}-${size.width}x${size.height}.png`, blob, {
+    zip.file(`${size.prefix}-${size.width}x${size.height}.png`, blob as Blob, {
       binary: true
     })
   }
 
   const icoBlob = await resizeImage({
     favicon,
-    targetWidth: 16,
-    targetHeight: 16
+    targetWidth: 64,
+    targetHeight: 64
   })
 
-  zip.file(`favicon.ico`, icoBlob, {
+  zip.file(`favicon.ico`, icoBlob as Blob, {
     binary: true
   })
 
@@ -146,32 +151,52 @@ export async function downloadResizedImagesAsZip({
   }
 
   const content = await zip.generateAsync({type: 'blob'})
-  saveAs(content, 'favicons.zip')
+  saveAs(content, 'figma-favicon-generator.zip')
 }
 
 /**
  * @description Generate the code sample for the user to copy.
+ * This code sample includes the meta tags and links for the favicon,
+ * apple touch icons, and web app manifest. It will conditionally add the
+ * expanded sizes and apple touch icons based on the user options.
  */
 export function generateCodeSample(options: UserOptions) {
   return `
+      <title>${options.siteName}</title>
+      <meta name="description" content="${options.description}" />
+      <meta property="og:title" content="${options.siteName}" />
+      <meta property="og:description" content="${options.description}" />
+      <meta name="theme-color" content="${options.themeColor}" />
+      <meta name="application-name" content="${options.siteName}" />
+      <link rel="icon" type="image/x-icon" href="favicon.ico" />
+      ${
+        options.includeExpandedSizes
+          ? `<link rel="icon" type="image/png" href="favicon-196x196.png" sizes="196x196" />
+      <link rel="icon" type="image/png" href="favicon-128x128.png" sizes="128x128" />
+      <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
+      <link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32" />
+      <link rel="icon" type="image/png" href="favicon-16x16.png" sizes="16x16" />`
+          : ``
+      }
       ${
         options.includeAppleTouchIcons
           ? `
-        <link rel="apple-touch-icon-precomposed" sizes="57x57" href="apple-touch-icon-57x57.png" />
-        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="apple-touch-icon-114x114.png" />
-        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="apple-touch-icon-72x72.png" />
-        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="apple-touch-icon-144x144.png" />
-        <link rel="apple-touch-icon-precomposed" sizes="60x60" href="apple-touch-icon-60x60.png" />
-        <link rel="apple-touch-icon-precomposed" sizes="120x120" href="apple-touch-icon-120x120.png" />
-        <link rel="apple-touch-icon-precomposed" sizes="76x76" href="apple-touch-icon-76x76.png" />
-        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="apple-touch-icon-152x152.png" />`
+        <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon-180x180.png" />
+        <link rel="apple-touch-icon" sizes="192x192" href="apple-touch-icon-192x192.png" />`
           : ``
       }
-  
-      <link rel="icon" type="image/png" href="favicon-196x196.png" sizes="196x196" />
-      <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
-      <link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32" />
-      <link rel="icon" type="image/png" href="favicon-16x16.png" sizes="16x16" />
-      <link rel="icon" type="image/png" href="favicon-128x128.png" sizes="128x128" />
-      <meta name="application-name" content="${options.siteName}"/>`
+      ${
+        options.includeAppleTouchIcons && options.includeExpandedSizes
+          ? `
+        <link rel="apple-touch-icon" sizes="57x57" href="apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon" sizes="60x60" href="apple-touch-icon-60x60.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="76x76" href="apple-touch-icon-76x76.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-icon" sizes="120x120" href="apple-touch-icon-120x120.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="apple-touch-icon-144x144.png" />
+        <link rel="apple-touch-icon" sizes="152x152" href="apple-touch-icon-152x152.png" />`
+          : ``
+      }
+      ${options.includeWebAppManifest ? `<link rel="manifest" href="site.webmanifest" />` : ``}`
 }

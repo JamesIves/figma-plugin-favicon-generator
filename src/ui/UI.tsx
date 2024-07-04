@@ -7,10 +7,11 @@ import TextInput from './components/TextInput/TextInput'
 import Button from './components/Button/Button'
 import {downloadResizedImagesAsZip, generateCodeSample} from './util'
 import {
-  faviconIcons,
+  faviconIconsExpanded,
   webAppManifestIcons,
   appleTouchIcons,
-  UserOptions
+  UserOptions,
+  appleTouchIconsExpanded
 } from '../constants'
 import imageWorkerScript from './image.worker'
 
@@ -36,7 +37,9 @@ const UI: React.FC<{}> = () => {
   const [options, setOptions] = useState<UserOptions>({
     includeAppleTouchIcons: false,
     includeWebAppManifest: false,
+    includeExpandedSizes: false,
     siteName: '',
+    description: '',
     themeColor: '#FFFFFF'
   })
 
@@ -48,10 +51,18 @@ const UI: React.FC<{}> = () => {
       return
     }
 
-    const sizes = faviconIcons
+    const sizes = []
+
+    if (options.includeExpandedSizes) {
+      sizes.push(...faviconIconsExpanded)
+    }
 
     if (options.includeAppleTouchIcons) {
       sizes.push(...appleTouchIcons)
+    }
+
+    if (options.includeAppleTouchIcons && options.includeExpandedSizes) {
+      sizes.push(...appleTouchIconsExpanded)
     }
 
     if (options.includeWebAppManifest) {
@@ -64,7 +75,9 @@ const UI: React.FC<{}> = () => {
       options
     })
 
-    setShowPostDownloadScreen(true)
+    if (!showPostDownloadScreen) {
+      setShowPostDownloadScreen(true)
+    }
   }
 
   /**
@@ -142,6 +155,16 @@ const UI: React.FC<{}> = () => {
             id="site-name"
           />
 
+          <TextInput
+            label="Description"
+            value={options.description}
+            placeholder="Short description"
+            onChange={e =>
+              setOptions({...options, description: e.target.value})
+            }
+            id="description"
+          />
+
           <ColorPicker
             label="Theme Color"
             value={options.themeColor}
@@ -177,6 +200,18 @@ const UI: React.FC<{}> = () => {
             }
           />
 
+          <Toggle
+            label="Include Expanded Sizes"
+            id="expanded-sizes"
+            checked={options.includeExpandedSizes}
+            onChange={() =>
+              setOptions({
+                ...options,
+                includeExpandedSizes: !options.includeExpandedSizes
+              })
+            }
+          />
+
           <div className="flex gap-4">
             <Button onClick={create} isDisabled={!favicon}>
               Create
@@ -195,21 +230,19 @@ const UI: React.FC<{}> = () => {
           <div className="icon icon--resolve-filled icon--green !w-full bg-no-repeat"></div>
           <p className="type text-center type--bold">
             Copy the following into the head of your HTML document and place the
-            icons alongside it. You may need to adjust the paths based on how
-            your application is setup.
+            downloaded icons alongside it. You may need to adjust the paths
+            based on how your application is setup.
           </p>
           <textarea className="textarea" rows={8}>
             {generateCodeSample(options)
               .split('\n')
               .map(line => line.trim())
+              .filter(line => line !== '')
               .join('\n')
               .trim()}
           </textarea>
           <div className="flex justify-center gap-4">
-            <Button
-              isSecondary
-              onClick={() => setShowPostDownloadScreen(false)}
-            >
+            <Button onClick={() => setShowPostDownloadScreen(false)}>
               Create Another
             </Button>
           </div>

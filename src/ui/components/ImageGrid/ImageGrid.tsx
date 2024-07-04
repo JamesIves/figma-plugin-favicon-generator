@@ -20,7 +20,7 @@ const ImageGrid: React.FC<ImageGridProps> = ({favicon}) => {
     return (
       <div className="flex items-center">
         <div className="w-full border-2 border-dotted border-gray-300 flex justify-center items-center h-48 text-gray-300">
-          <p className="type p-8 text-center mx-auto">
+          <p className="type p-8 text-center mx-auto text-black-8">
             <div className="icon icon--image icon--purple !w-full bg-no-repeat"></div>
             Select a layer with an image fill to get started.
           </p>
