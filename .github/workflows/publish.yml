@@ -58,9 +58,12 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: v${{ env.VERSION }}
-          release_name: Release v${{ env.VERSION }}
+          release_name: v${{ env.VERSION }}
           draft: false
           prerelease: false
+
+      - name: Build Plugin
+        run: npm run build
 
       - name: Zip dist folder
         run: zip -r dist.zip dist/
