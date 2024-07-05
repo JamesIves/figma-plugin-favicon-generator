@@ -1,4 +1,5 @@
-name: publish-sponsors
+name: Publish Sponsors 💖
+
 on:
   workflow_dispatch:
   schedule:
