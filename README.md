@@ -6,7 +6,7 @@ With this plugin you can easily export Favicons, App Icons and the associated HT
 
 Special thank you to all the past and present [GitHub Sponsors](https://github.com/sponsors/JamesIves) 💖.
 
-<!-- sponsors -->
+<!-- sponsors --><!-- sponsors -->
 
 ## Getting Started
 
