@@ -10,6 +10,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      VERSION: ${{ github.event.inputs.version }} # Set VERSION at the job level
     permissions:
       packages: write
       contents: write
@@ -38,12 +40,16 @@ jobs:
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
 
-      - name: Create and Push Tag
-        env:
-          VERSION: ${{ github.event.inputs.version }}
+      - name: Update package.json and Create Tag
         run: |
-          git tag -a "v${VERSION}" -m "Release v${VERSION}"
-          git push origin "v${VERSION}"
+          # Set up Node.js environment if not already done
+          npm version ${{ env.VERSION }} --no-git-tag-version
+          git config --global user.email "you@example.com"
+          git config --global user.name "Your Name"
+          git commit -am "chore: v${{ env.VERSION }} [skip ci]"
+          git tag -a "v${{ env.VERSION }}" -m "Release v${{ env.VERSION }}"
+          git push origin main
+          git push origin "v${{ env.VERSION }}"
 
       - name: Create Release 🚀
         if: github.ref == 'refs/heads/main'
