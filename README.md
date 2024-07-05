@@ -1,4 +1,4 @@
-# Figma Plugin Favicon Generator
+# Favicon Generator Figma Plugin
 
 <img align="right" width="128" height="auto"  src="./.github/docs/icon.png" alt="Icon">
 
