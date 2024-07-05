@@ -4,7 +4,8 @@ on:
   workflow_dispatch:
   schedule:
     - cron: 30 15 * * 0-6
-
+permissions:
+  contents: write
 jobs:
   generate-sponsors:
     runs-on: ubuntu-latest
