@@ -11,6 +11,6 @@ With this plugin you can easily export Favicons, App Icons and the associated HT
 
 If you'd like to run the project locally and make a change please [check out the contribution guide](./CONTRIBUTING.md). [Any problems can be reported via the issue board](https://github.com/JamesIves/figma-plugin-favicon-generator/issues).
 
-![Screenshot Start](./.github/docs/screenshot_start.png)
+![Screenshot Start](./.github/docs/screenshot1.png)
 
-![Screenshot End](./.github/docs/screenshot_end.png)
+![Screenshot End](./.github/docs/screenshot2.png)
