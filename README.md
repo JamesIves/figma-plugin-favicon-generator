@@ -4,6 +4,10 @@
 
 With this plugin you can easily export Favicons, App Icons and the associated HTMl meta tags based on your current node selection. This tool is similar to other online favicon generators except you can instead conveniently do it directly from within Figma.
 
+Special thank you to all the past and present [GitHub Sponsors](https://github.com/sponsors/JamesIves) 💖.
+
+<!-- sponsors -->
+
 ## Getting Started
 
 > [!TIP]
