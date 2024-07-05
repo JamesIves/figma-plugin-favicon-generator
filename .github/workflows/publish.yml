@@ -54,6 +54,7 @@ jobs:
       - name: Create Release 🚀
         if: github.ref == 'refs/heads/main'
         uses: actions/create-release@v1
+        id: create_release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -66,7 +67,7 @@ jobs:
         run: npm run build
 
       - name: Zip dist folder
-        run: zip -r dist.zip dist/
+        run: zip -r plugin.zip dist/
 
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
@@ -74,6 +75,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist.zip
+          asset_path: ./plugin.zip
           asset_name: plugin.zip
           asset_content_type: application/zip
