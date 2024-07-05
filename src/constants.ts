@@ -13,38 +13,6 @@ export enum PluginMessageType {
 }
 
 /**
- * The types of nodes that can be selected in Figma.
- */
-export enum FigmaNodeType {
-  /**
-   * A frame node.
-   */
-  FRAME = 'FRAME',
-  /**
-   * A rectangle node.
-   */
-  RECTANGLE = 'RECTANGLE',
-  /**
-   * A group node.
-   */
-  GROUP = 'GROUP'
-}
-
-export enum FigmaFillType {
-  /**
-   * An image fill.
-   */
-  IMAGE = 'IMAGE'
-}
-
-/**
- * The fill data for a node in Figma.
- */
-export interface FigmaFill {
-  type: FigmaFillType
-}
-
-/**
  * The data structure for the message sent between the plugin and the UI.
  */
 export interface PluginInterfaceEvent {

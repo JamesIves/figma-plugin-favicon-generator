@@ -1,10 +1,4 @@
-import {
-  // FigmaFill,
-  // FigmaFillType,
-  FigmaNodeType,
-  PluginInterfaceEvent,
-  PluginMessageType
-} from '../constants'
+import {PluginInterfaceEvent, PluginMessageType} from '../constants'
 
 /**
  * This file is the entry point for the plugin code. It is responsible for
@@ -30,7 +24,7 @@ function sendToPluginUi({data, type}: PluginInterfaceEvent): void {
 /**
  * @describe Exports the image fill of the specified node as a PNG image.
  */
-async function exportImage(node: FrameNode | RectangleNode): Promise<void> {
+async function exportSelection(node: SceneNode): Promise<void> {
   try {
     const result = await node.exportAsync({
       format: 'PNG',
@@ -58,27 +52,6 @@ figma.ui.onmessage = (msg: {type: string}) => {
   }
 }
 
-async function exportGroup(
-  node: GroupNode | FrameNode | RectangleNode
-): Promise<void> {
-  try {
-    const result = await node.exportAsync({
-      format: 'PNG',
-      constraint: {
-        type: 'WIDTH',
-        value: 512
-      }
-    })
-
-    sendToPluginUi({
-      type: PluginMessageType.SELECTION,
-      data: result
-    })
-  } catch (error) {
-    console.error('An error occurred exporting the group from Figma... ', error)
-  }
-}
-
 /**
  * @describe Resets the image selection in the plugin UI.
  * This is used when the selected node is not a frame or rectangle with an image fill.
@@ -101,21 +74,9 @@ figma.on('selectionchange', () => {
   if (selection.length === 1) {
     const node = selection[0]
 
-    if (
-      (node.type === FigmaNodeType.FRAME ||
-        node.type === FigmaNodeType.RECTANGLE) &&
-      node.width >= 1 &&
-      node.height >= 1
-    ) {
+    if (node.width >= 1 && node.height >= 1) {
       // Export the image fill if it exists and the node has dimensions.
-      exportImage(node)
-    } else if (
-      node.type === FigmaNodeType.GROUP &&
-      node.width >= 1 &&
-      node.height >= 1
-    ) {
-      console.log('Exporting group from Figma...', node)
-      exportGroup(node)
+      exportSelection(node)
     } else {
       resetImageSelection()
     }
