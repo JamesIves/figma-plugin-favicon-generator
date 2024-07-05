@@ -53,15 +53,15 @@ jobs:
 
       - name: Create Release 🚀
         if: github.ref == 'refs/heads/main'
-        uses: actions/create-release@v1
+        uses: softprops/action-gh-release@v2.0.6
         id: create_release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: v${{ env.VERSION }}
-          release_name: v${{ env.VERSION }}
+          name: v${{ env.VERSION }}
           draft: false
           prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build Plugin
         run: npm run build
