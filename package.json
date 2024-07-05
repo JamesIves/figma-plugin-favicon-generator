@@ -2,7 +2,7 @@
   "name": "@jamesives/figma-plugin-favicon-generator",
   "description": "Figma plugin for generating favicons based on current node selection.",
   "author": "James Ives <iam@jamesiv.es> (https://jamesiv.es)",
-  "version": "1.0.5",
+  "version": "1.0.1",
   "main": "src/code.js",
   "scripts": {
     "dev": "run-p start:ui start:code",
