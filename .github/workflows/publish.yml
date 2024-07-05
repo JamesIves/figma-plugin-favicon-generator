@@ -46,7 +46,7 @@ jobs:
           npm version ${{ env.VERSION }} --no-git-tag-version
           git config --global user.email "you@example.com"
           git config --global user.name "Your Name"
-          git commit -am "chore: v${{ env.VERSION }} [skip ci]"
+          git commit -am "chore: ✨ Push v${{ env.VERSION }} [skip ci]"
           git tag -a "v${{ env.VERSION }}" -m "Release v${{ env.VERSION }}"
           git push origin main
           git push origin "v${{ env.VERSION }}"
