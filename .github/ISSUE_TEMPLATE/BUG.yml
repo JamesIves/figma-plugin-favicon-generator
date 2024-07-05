@@ -22,5 +22,5 @@ body:
     id: logs
     attributes:
       label: Logs
-      description: Please copy and paste your log files. This will be automatically formatted into code, so no need for backticks.
+      description: Please copy and paste any associated logs. This will be automatically formatted into code, so no need for backticks.
       render: shell
