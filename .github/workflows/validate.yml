@@ -1,9 +1,6 @@
 name: Validate 🧪
 on:
   push:
-    branches-ignore:
-      - main
-  workflow_dispatch:
 jobs:
   build:
     runs-on: ubuntu-latest
