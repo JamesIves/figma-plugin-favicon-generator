@@ -53,11 +53,11 @@ figma.ui.onmessage = (msg: {type: string}) => {
 }
 
 /**
- * @describe Resets the image selection in the plugin UI.
+ * @describe Resets the selection in the plugin UI.
  * This is used when the selected node is not a frame or rectangle with an image fill.
  * This function is also used when the selection is cleared in the Figma document.
  */
-function resetImageSelection(): void {
+function resetSelection(): void {
   sendToPluginUi({
     type: 'selection',
     data: null
@@ -78,11 +78,11 @@ figma.on('selectionchange', () => {
       // Export the image fill if it exists and the node has dimensions.
       exportSelection(node)
     } else {
-      resetImageSelection()
+      resetSelection()
     }
   } else {
     console.log('Please select exactly one frame or rectangle.')
 
-    resetImageSelection()
+    resetSelection()
   }
 })
