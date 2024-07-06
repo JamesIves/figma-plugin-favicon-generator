@@ -19,7 +19,7 @@ import imageWorkerScript from './image.worker'
  * @name UI
  * @description The main UI component for the plugin. This component is responsible for rendering the plugin UI and handling user interactions.
  */
-const UI: React.FC<{}> = () => {
+const UI: React.FC = () => {
   /**
    * Holds the URL blob of the favicon image.
    */
@@ -91,8 +91,8 @@ const UI: React.FC<{}> = () => {
    * 💡 Handles the loading of the web worker script.
    * As the plugin is running in a sandboxed environment, we need to load the web worker script in a way that it can be executed without an external file.
    */
-  const loadWebWorker = (script: {(): void; toString?: any}) => {
-    const scriptStr = script.toString()
+  const loadWebWorker = (script: {(): void; toString?: () => unknown}) => {
+    const scriptStr = script.toString?.()
     return new Worker(URL.createObjectURL(new Blob([`(${scriptStr})()`])))
   }
 
