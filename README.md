@@ -2,7 +2,7 @@
 
 <img align="right" width="128" height="auto"  src="./.github/docs/icon.png" alt="Icon">
 
-With this plugin you can easily export Favicons, App Icons and the associated HTMl meta tags based on your current node selection. This tool is similar to other online favicon generators except you can instead conveniently do it directly from within Figma.
+With this plugin you can easily export Favicons, App Icons and the associated HTML meta tags based on your current node selection. This tool is similar to other online favicon generators except you can instead conveniently do it directly from within Figma.
 
 Special thank you to all the past and present [GitHub Sponsors](https://github.com/sponsors/JamesIves) 💖.
 
